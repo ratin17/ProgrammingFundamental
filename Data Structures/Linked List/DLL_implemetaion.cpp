@@ -104,7 +104,9 @@ void insertAtAnyPostion(Node* &Head,int val,int pos){
         temp=temp->Next;
     }
     newNode->Next=temp->Next;
+    newNode->Prev=temp;
     temp->Next=newNode;
+    newNode->Next->Prev=newNode;
 }
 
 int searchByValue(Node *Head,int key){
@@ -125,6 +127,7 @@ void deleteFromHead(Node* &Head){
         return;
     }
     Head=temp->Next;
+    Head->Prev=NULL;
     cout<<endl<<temp->value<<" Deleted from head"<<endl;
     delete temp;
 }
@@ -172,6 +175,7 @@ void deleteFromAnyPosition(Node* &Head,int pos){
     while(++count!=(pos-1))temp=temp->Next;
     Node* delNode = temp->Next;
     temp->Next=delNode->Next;
+    delNode->Next->Prev=temp;
     cout<<endl<<delNode->value<<" Deleted from pos : "<<pos<<endl;
     delete delNode;
 
@@ -186,32 +190,39 @@ void deleteByValue(Node* &Head,int val){
 }
 
 void reverseList(Node* &Head){
-    Node* prev=NULL;
+    Node* temp;
+    Node* itr;
     Node* cur=Head;
-    Node* next=Head->Next;
 
-    while(true){
-       cur->Next=prev;
-       if(next==NULL)break;
-       prev=cur;
-       cur=next;
-       next=next->Next;
+    while(cur!=NULL){
+        itr=cur->Next; //for preserving next node to iterate
+
+        temp=cur->Next;
+        cur->Next=cur->Prev;
+        cur->Prev=temp;
+
+        //passing the New Head rightwards
+        Head=cur;
+
+        cur=itr;
     }
-    Head=cur;
+
 
     cout<<endl<<"List is Reversed"<<endl;
 }
 
-Node* reverseListRecursive(Node* &Head){
-    
-    //base call
-    if(Head->Next==NULL)return Head;
 
-    Node* newHead=reverseListRecursive(Head->Next);
-    Head->Next->Next=Head;
-    Head->Next=NULL;
-
-    return newHead;
+Node* reverseListRecursive(Node* node){
+    if (!node)return NULL;
+ 
+    Node* temp = node->Next;
+    node->Next = node->Prev;
+    node->Prev = temp;
+ 
+    if (!node->Prev)
+        return node;
+ 
+    return reverseListRecursive(node->Prev);
 }
 
 
