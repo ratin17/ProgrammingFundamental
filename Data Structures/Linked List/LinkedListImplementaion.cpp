@@ -18,9 +18,10 @@ void printList(Node *node){
         cout<<endl<<"Nothing in the List !"<<endl;
         return;
     }
-    cout<<endl<<"List :";
+    cout<<endl<<"List : ";
     while (node != NULL){
-        cout<<" "<<node->value;
+        cout<<node->value;
+        if(node->Next!=NULL)cout<<" -> ";
         node = node->Next;
     }
     cout<<endl<<endl;
@@ -209,9 +210,67 @@ Node* reverseListRecursive(Node* &Head){
 }
 
 
+int getMid(Node* Head){
+    Node* slow=Head;
+    Node* fast =Head;
+
+    while(fast!=NULL && fast->Next!=NULL){
+        slow=slow->Next;
+        fast=fast->Next->Next;
+    }
+    return slow->value;
+}
+
+
+void makeCycle(Node* &Head,int pos){
+    if(Head==NULL){
+        cout<<">>>> No eleemnt in the list ! "<<endl;
+        return;
+    }
+    
+    Node* temp=Head;
+    int count=1;
+    Node* startNode;
+
+    while(temp->Next!=NULL){
+        if(count==pos){
+            startNode=temp;
+        }
+        temp=temp->Next;
+    }
+    temp->Next=startNode;
+}
+
+
+bool hasCycle(Node *Head){
+    Node* slow=Head;
+    Node* fast =Head;
+    
+    //if No Node or for a  single non-circular list
+    if(slow==NULL || slow->Next==NULL)return false;
+
+    do{
+        slow=slow->Next;
+        fast=fast->Next->Next;
+
+        if(slow==fast)return true;
+    }while (fast!=NULL && fast->Next!=NULL);
+
+    return false;
+    
+}
+
+void removeCycle(Node* &Head){
+    
+}
+
+
+
+
 int main(){
 
     Node* head = NULL;
+    Node* cycleNode=NULL;
 
     insertAtTail(head, 2);
     insertAtHead(head,1);
@@ -232,6 +291,7 @@ int main(){
     cout<<"10 : Delete by Value"<<endl;
     cout<<"11 : Reverse List"<<endl;
     cout<<"12 : Reverse List Recursive"<<endl;
+    cout<<"13 : Get the mid element"<<endl;
     
 
     int c=1,v,p,k;
@@ -289,6 +349,9 @@ int main(){
         else if(c==12){
             head=reverseListRecursive(head);
             cout<<endl<<"List is Reversed Recursivley"<<endl;
+        }
+        else if(c==13){
+            cout<<endl<<"Midd Element: "<<getMid(head)<<endl;
         }
     }
     
