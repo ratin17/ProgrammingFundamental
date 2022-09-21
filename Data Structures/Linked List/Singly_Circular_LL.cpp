@@ -2,6 +2,7 @@
 
 using namespace std;
 
+
 class Node{
     public:
     int value;
@@ -13,16 +14,25 @@ class Node{
     }
 };
 
+
+//prototypes
+bool hasCycle(Node *Head);
+void makeCycle(Node* &Head,int pos);
+void removeCycle(Node* &Head);
+
+
 void printList(Node *node){
     if(node==NULL){
         cout<<endl<<"Nothing in the List !"<<endl;
         return;
     }
+    Node* Head=node;
+
     cout<<endl<<"List : ";
-    while (node != NULL){
-        cout<<node->value;
-        if(node->Next!=NULL)cout<<" -> ";
-        node = node->Next;
+    while (true ){
+        cout<<node->value<<" -> ";
+        if(node->Next!=Head)node = node->Next;
+        else break;
     }
     cout<<endl<<endl;
 }
@@ -43,12 +53,20 @@ void insertAtHead(Node* &Head, int val){
     Node* newNode=new Node(val);
 
     if(Head==NULL){
+        newNode->Next=newNode;
         Head=newNode;
+
+        cout<<endl<<">>> inserted "<<val<<" at head"<<endl;
         return;
     }
 
     newNode->Next=Head;
+    Node* temp=Head;
+    while(temp->Next!=Head)temp=temp->Next;
+    temp->Next=newNode;
     Head=newNode;
+
+    cout<<endl<<">>> inserted "<<val<<" at head"<<endl;
     
 }
 
@@ -57,14 +75,16 @@ void insertAtTail(Node* &Head, int val){
     Node* newNode=new Node(val);
 
     if(Head==NULL){
-        Head=newNode;
+        insertAtHead(Head,val);
         return;
     }
     
     Node* temp=Head;
-    while(temp->Next!=NULL)temp=temp->Next;
+    while(temp->Next!=Head)temp=temp->Next;
+
     temp->Next=newNode;
-    
+    newNode->Next=Head;
+    cout<<endl<<">>> inserted "<<val<<" at tail"<<endl;
 }
 
 //just for testing some pointer issues
@@ -73,12 +93,14 @@ void printTest(int* &p){
 }
 
 int listLength(Node* node){
+    if(node==NULL)return 0;
+    Node* Head=node;
     int count =0;
-    while (node != NULL){
+    while (node->Next!=Head){
         count++;
         node = node->Next;
     }
-    return count;
+    return ++count;
 }
 
 void insertAtAnyPostion(Node* &Head,int val,int pos){
@@ -102,44 +124,61 @@ void insertAtAnyPostion(Node* &Head,int val,int pos){
     temp->Next=newNode;
 }
 
-int searchByValue(Node *Head,int key){
+//modified
+int searchByValue(Node* Head,int key){
     Node* temp=Head;
     int count=0;
-    while(temp!=NULL){
+    while(Head){
         count++;
         if(temp->value==key)return count;
+        if(temp->Next==Head)break;
         temp=temp->Next;
     }
+
     return -1;
 }
 
 void deleteFromHead(Node* &Head){
-    Node* temp=Head;
-    if(temp==NULL){
-        cout<<"Nothing to delete !"<<endl;
+    if(Head==NULL){
+        cout<<"!!! Nothing to delete :)"<<endl;
         return;
     }
-    Head=temp->Next;
-    cout<<endl<<temp->value<<" Deleted from head"<<endl;
-    delete temp;
+
+    Node* delNode=Head;
+    Head=delNode->Next;
+
+    if(Head==delNode){
+        Head=NULL;
+        cout<<endl<<">>> "<<delNode->value<<" Deleted from head"<<endl;
+        delete delNode;
+        return;
+    }
+
+    Node* temp=Head;
+    while(temp->Next!=delNode)temp=temp->Next;
+    temp->Next=Head;
+    cout<<endl<<">>> "<<delNode->value<<" Deleted from head"<<endl;
+    delete delNode;
 }
 
 void deleteFromTail(Node* &Head){
-    Node* temp=Head;
-    if(temp==NULL){
-        cout<<"Nothing to delete !"<<endl;
+    if(Head==NULL){
+        cout<<"!!! Nothing to delete :)"<<endl;
         return;
     }
-    if(temp->Next==NULL){
+
+    if(Head->Next==NULL){
         deleteFromHead(Head);
         return;
     }
 
-    while(temp->Next->Next!=NULL)temp=temp->Next;
+    Node* temp=Head;
+
+    while(temp->Next->Next!=Head)temp=temp->Next;
 
     Node* delNode=temp->Next;
-    temp->Next=NULL;
-    cout<<endl<<delNode->value<<" Deleted from tail"<<endl;
+    temp->Next=Head;
+    cout<<endl<<">>> "<<delNode->value<<" Deleted from tail"<<endl;
     delete delNode;
 
 }
@@ -167,7 +206,7 @@ void deleteFromAnyPosition(Node* &Head,int pos){
     while(++count!=(pos-1))temp=temp->Next;
     Node* delNode = temp->Next;
     temp->Next=delNode->Next;
-    cout<<endl<<delNode->value<<" Deleted from pos : "<<pos<<endl;
+    cout<<endl<<">>> "<<delNode->value<<" Deleted from pos : "<<pos<<endl;
     delete delNode;
 
 }
@@ -179,6 +218,8 @@ void deleteByValue(Node* &Head,int val){
         pos=searchByValue(Head,val);
     }
 }
+
+
 
 void reverseList(Node* &Head){
     Node* prev=NULL;
@@ -211,34 +252,21 @@ Node* reverseListRecursive(Node* &Head){
 
 
 int getMid(Node* Head){
-    Node* slow=Head;
-    Node* fast =Head;
+    if(Head==NULL){
+        cout<<"No element found as Mid !"<<endl;
+        return -1111111;
+    }
 
-    while(fast!=NULL && fast->Next!=NULL){
+    if(Head->Next==Head)return Head->value;
+
+    Node* slow=Head->Next;
+    Node* fast =Head->Next->Next;
+
+    while(fast!=Head && fast->Next!=Head){
         slow=slow->Next;
         fast=fast->Next->Next;
     }
     return slow->value;
-}
-
-
-void makeCycle(Node* &Head,int pos){
-    if(Head==NULL){
-        cout<<">>>> No eleemnt in the list ! "<<endl;
-        return;
-    }
-    
-    Node* temp=Head;
-    int count=1;
-    Node* startNode;
-
-    while(temp->Next!=NULL){
-        if(count==pos){
-            startNode=temp;
-        }
-        temp=temp->Next;
-    }
-    temp->Next=startNode;
 }
 
 
@@ -260,15 +288,60 @@ bool hasCycle(Node *Head){
     
 }
 
-void removeCycle(Node* &Head){
+
+void makeCycle(Node* &Head,int pos){
+    if(Head==NULL){
+        cout<<endl<<">>>> No eleemnt in the list ! "<<endl;
+        return;
+    }
+
+    if(hasCycle(Head))removeCycle(Head);
     
+    Node* temp=Head;
+    int count=1;
+    Node* startNode;
+
+    while(temp->Next!=NULL){
+        if(count==pos){
+            startNode=temp;
+        }
+        temp=temp->Next;
+        count++;
+    }
+    temp->Next=startNode;
+
+    cout<<endl<<">>>> Cycle created at pos: "<<pos<<endl;
+}
+
+
+void removeCycle(Node* &Head){
+    Node* slow=Head;
+    Node* fast =Head;
+    
+    if(!hasCycle(Head)){
+        cout<<endl<<">>>> No Cycle found to remove"<<endl;
+    }
+
+    do{
+        slow=slow->Next;
+        fast=fast->Next->Next;
+
+        if(slow==fast)break;
+    }while (fast!=NULL && fast->Next!=NULL);
+
+    fast=Head;
+    while(slow->Next!=fast->Next){
+        slow=slow->Next;
+        fast=fast->Next;
+    }
+    slow->Next=NULL;
+
+    cout<<endl<<">>>> Cycle removed"<<endl;
 }
 
 
 
-
 int main(){
-
     Node* head = NULL;
     Node* cycleNode=NULL;
 
@@ -276,8 +349,9 @@ int main(){
     insertAtHead(head,1);
     insertAtTail(head, 3);
     insertAtTail(head, 4);
-
     printList(head);
+
+
     cout<<"0 : Exit"<<endl;
     cout<<"1 : Show Current List"<<endl;
     cout<<"2 : Inser at Head"<<endl;
@@ -289,9 +363,12 @@ int main(){
     cout<<"8 : Delete from Tail"<<endl;
     cout<<"9 : Delete from any Position"<<endl;
     cout<<"10 : Delete by Value"<<endl;
-    cout<<"11 : Reverse List"<<endl;
-    cout<<"12 : Reverse List Recursive"<<endl;
+    // cout<<"11 : Reverse List"<<endl;
+    // cout<<"12 : Reverse List Recursive"<<endl;
     cout<<"13 : Get the mid element"<<endl;
+    // cout<<"14 : Make a Cycle"<<endl;
+    // cout<<"15 : Detect Cycle"<<endl;
+    // cout<<"16 : Remove Cycle"<<endl;
     
 
     int c=1,v,p,k;
@@ -344,7 +421,6 @@ int main(){
         }
         else if(c==11){
             reverseList(head);
-
         }
         else if(c==12){
             head=reverseListRecursive(head);
@@ -353,6 +429,22 @@ int main(){
         else if(c==13){
             cout<<endl<<"Midd Element: "<<getMid(head)<<endl;
         }
+        else if(c==14){
+            cout<<"Enter pos :";
+            cin>>p;
+            makeCycle(head,p);
+        }
+        else if(c==15){
+            if(hasCycle(head))
+            cout<<endl<<">>>> Cycle found !"<<endl;
+            else
+            cout<<endl<<">>>> No Cycle found :)"<<endl;
+            
+        }
+        else if(c==16){
+            removeCycle(head);
+        }
+
     }
     
     return 0;
