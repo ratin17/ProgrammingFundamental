@@ -10,7 +10,7 @@ public:
 
     Node(int v){
         val=v;
-        Prev=NULL:
+        Prev=NULL;
         Next=NULL;
     }
 

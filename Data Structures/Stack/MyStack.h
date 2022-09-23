@@ -2,13 +2,13 @@
 //#define NULL _null
 using namespace std;
 
-class Node{
+template <typename N> class Node{
 public:
-    int val;
+    N val;
     Node *Prev;
     Node *Next;
 
-    Node(int v){
+    Node(N v){
         val=v;
         Prev=NULL;
         Next=NULL;
@@ -16,11 +16,12 @@ public:
 
 };
 
-class Stack{
+
+template <typename S> class Stack{
 public:
-    Node *Head;
-    Node *Top;
-    int countNode;
+    Node <S> *Head;
+    Node <S> *Top;
+    S countNode;
 
     Stack(){
         Head=NULL;
@@ -28,8 +29,8 @@ public:
         countNode=0;
     }
 
-    void push(int v){
-        Node *newNode=new Node(v);
+    void push(S v){
+        Node <S> *newNode=new Node(v);
         if(Head==NULL){
             Head=newNode;
             Top=newNode;
@@ -44,13 +45,13 @@ public:
         }
     }
 
-    int pop(){
-        Node *popNode=Top;
-        int popValue=popNode->val;
+    void pop(){
+        Node <S> *popNode=Top;
+        S popValue=popNode->val;
 
         if(Head==NULL){
             cout<<"UnderFlow"<<endl;
-            return -1;
+            //return -1;
         }
         else if(Top==Head){
             Head=NULL;
@@ -64,24 +65,22 @@ public:
         }
 
         delete popNode;
-        return popValue;
+        //return popValue;
     }
 
-    int size(){
+    S size(){
         return countNode;
     }
 
-    int top(){
+    S top(){
         return Top->val;
     }
 
     bool empty(){
         if(Head==NULL){
-            cout<<"Empty"<<endl;
             return true;
         }
         else{
-            cout<<"Not Empty"<<endl;
             return false;
         }
     }
