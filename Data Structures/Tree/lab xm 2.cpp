@@ -28,7 +28,7 @@ void zizagtraversal(struct Node* root)
 
         // pop out of stack
         struct Node* temp = currentlevel.top();
-        currentlevel.pop();
+        currentlevel.pop(); 
 
         // if not null
         if (temp) {

@@ -1,30 +1,30 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class Node{
+template <typename N> class Node{
     public:
     int value;
     Node* Next;
 
-    Node(int val){
+    Node(N val){
         value=val;
         Next=NULL;
     }
 };
 
 
-class Queue{
+template <typename Q> class Queue{
     public:
-    Node* front;
-    Node* rear;
+    Node* <Q> front;
+    Node* <Q> rear;
 
     Queue(){
         front =NULL;
         rear=NULL;
     }
 
-    void push(int val){
-        Node* newNode=new Node(val);
+    void push(Q val){
+        Node* <Q> newNode=new Node <Q> (val);
 
         if(rear==NULL){
             front=newNode;
@@ -36,38 +36,25 @@ class Queue{
         rear=rear->Next;
     }
 
-    int pop(){
-        int popData;
+    void pop(){
+        Q popData;
         if(front==NULL){
             return INT_MIN;
         }
-       Node* delNode=front;
+       Node* <Q> delNode=front;
        popData=front->value;
        front=front->Next;
        if(front==NULL)rear=NULL;
        delete delNode;
-       return popData;
+       //return popData;
     }
 
-    void show(){
-        Node* temp=front;
-        if(temp==NULL){
-            cout<<endl<<"No element"<<endl;
-            return ;
-        }
-        cout<<endl<<"Queue : ";
-        while(temp!=NULL){
-            cout<<temp->value<<" ";
-            temp=temp->Next;
-        }
-        cout<<endl<<endl;
-    }
 
-    int getFront(){
+    Q Front(){
         return front->value;
     }
 
-    int getBack(){
+    Q Back(){
         return rear->value;
     }
 

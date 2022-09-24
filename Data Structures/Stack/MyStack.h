@@ -30,7 +30,7 @@ public:
     }
 
     void push(S v){
-        Node <S> *newNode=new Node(v);
+        Node <S> *newNode=new Node <S> (v);
         if(Head==NULL){
             Head=newNode;
             Top=newNode;
@@ -83,6 +83,17 @@ public:
         else{
             return false;
         }
+    }
+
+    void show(){
+        Node <S> *temp=Head;
+        cout<<"(Head)";
+        while(temp!=NULL){
+            cout<<temp->val;
+            if(temp->Next!=NULL)cout<<" ->";
+            temp=temp->Next;
+        }
+        cout<<"(Top)"<<endl;
     }
 
 };
