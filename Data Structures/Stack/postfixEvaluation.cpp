@@ -4,8 +4,8 @@
 using namespace std;
 
 int calcPrec(char c);
-int evaluatePrefix(string s);
-string infixToPrefix(string s);
+int evaluatePostfix(string s);
+string infixToPostfix(string s);
 
 int calcPrec(char c){
     if(c=='^')return 3;
@@ -14,9 +14,8 @@ int calcPrec(char c){
     else return -1;
 }
 
-string infixToPrefix(string s){
+string infixToPostfix(string s){
     Stack<char> t;
-    reverse(s.begin(),s.end());
     string result="";
 
     for(int i=0;i<s.length();i++){
@@ -24,11 +23,11 @@ string infixToPrefix(string s){
         if(s[i]>='0'&&s[i]<='9'){
             result+=s[i];
         }
-        else if(s[i]==')'){
+        else if(s[i]=='('){
             t.push(s[i]);
         }
-        else if(s[i]=='('){
-            while(!t.empty() && t.top()!=')'){
+        else if(s[i]==')'){
+            while(!t.empty() && t.top()!='('){
                 result+=t.top();
                 t.pop();
             }
@@ -48,21 +47,44 @@ string infixToPrefix(string s){
         t.pop();
     }
 
-    reverse(result.begin(),result.end());
-
     return result;
 }
 
+int evaluatePostfix(string s){
+    Stack<int> p;
+
+    for(int i=0;i<s.length();i++){
+        if(s[i]>='0'&&s[i]<='9'){
+            p.push((s[i]-'0'));
+        }
+        else{
+            int a=p.top();
+            p.pop();
+            int b=p.top();
+            p.pop();
+
+            if(s[i]=='+')p.push(a+b);
+            else if(s[i]=='-')p.push(b-a);
+            else if(s[i]=='*')p.push(a*b);
+            else if(s[i]=='/')p.push(b/a);
+            else if(s[i]=='^')p.push(pow(b,a));
+        }
+    }
+
+    return p.top();
+}
 
 int main(){
     string in="(5*((6^2)+(7-(2/6))))-((7*(8+1))+(5*4))";
     //cin>>in;
 
-    string pre=infixToPrefix(in);
+    string post=infixToPostfix(in);
     
     cout<<"Infix : "<<in<<endl;
-    cout<<"Prefix : "<<pre<<endl;
+    cout<<"Postfix : "<<post<<endl;
 
+    int ans=evaluatePostfix(post);
+    cout<<"Evaluation in Postfix : "<<ans<<endl;
 
     return 0;
 }
