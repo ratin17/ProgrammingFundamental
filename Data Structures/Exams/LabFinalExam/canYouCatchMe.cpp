@@ -1,89 +1,103 @@
 #include<bits/stdc++.h>
+
 using namespace std;
+ 
+
 
 struct Node
 {
-    int data;
-    Node* left, * right;
-};
-Node* newNode(int data)
-{
-    Node* node = (Node*)malloc(sizeof(Node));
-    node->data = data;
-    node->left = node->right = NULL;
-    return (node);
-}
-
-Node* insertLevelOrder(vector<char> arr,int i, int n){
-      Node *root = nullptr;
-    if (i < n)
+    char data;
+    Node *left, *right;
+ 
+    Node(int data)
     {
-        root = newNode(arr[i]);
-          
-        // insert left child
-        root->left = insertLevelOrder(arr,
-                   2 * i + 1, n);
-  
-        // insert right child
-        root->right = insertLevelOrder(arr,
-                  2 * i + 2, n);
+        this->data = data;
+        this->left = this->right = nullptr;
     }
-    return root;
-}
+};
 
 
-void levelOrder(Node* root,string &s){
-
-    if(root==NULL)return;
-
-    queue<Node*> q;
-    q.push(root);
-    q.push(NULL);
-
-    while(true){
-        if(q.front()==NULL){
-            q.pop();
-            if(q.empty())break;
-            q.push(NULL);
-            s+=", ";
-        }
-        else{
-            s=s+to_string(q.front()->data)+" ";
-            if(q.front()->left!=NULL)q.push(q.front()->left);
-            if(q.front()->right!=NULL)q.push(q.front()->right);
-            q.pop();
-        }
-    }
-
-}
-
-
-
-
-int main(){
-    string s;
-    cin>>s;
-    int l=1;
-    int p,c=0;
-    vector<char>a;
-    for(int i=1;i<=l;i++){
-        cin>>p;
-        if(p!=-1){
-            a.push_back(s[p]-'A');
-            c++;
-        }
-        else a.push_back('\0');
+bool isPalindrome(vector<char> str){
+    int l = 0;
+    int h = str.size() - 1;
+    
+    while (h > l){
+        if (str[l++] != str[h--])return false;
         
-        if(i==l){
-            i=1;
-            l=c*2;
-            c=0;
-        }
     }
+    return true;
+}
 
-    string level="";
-    Node* root=insertLevelOrder(a,0,a.size());
-    levelOrder(root,level);
-    cout<<endl<<"levelorder : "<<level<<endl;
-    return 0;
+
+bool isLeaf(Node* node) {
+    return (node->left == nullptr && node->right == nullptr);
+}
+ 
+int c=0;
+void printRootToLeafPaths(Node* node, vector<int> &path)
+{
+    
+    if (node == nullptr) {
+        return;
+    }
+ 
+    
+    path.push_back(node->data);
+ 
+    
+    if (isLeaf(node)){
+        vector<char> chk;
+        for (int data: path) {
+            chk.push_back(data);
+        }
+        if(isPalindrome(chk))c++;
+    }
+ 
+    
+    printRootToLeafPaths(node->left, path);
+    printRootToLeafPaths(node->right, path);
+ 
+    
+    path.pop_back();
+}
+ 
+void printRootToLeafPaths(Node* node){
+    vector<int> path;
+    printRootToLeafPaths(node, path);
+}
+ 
+int main()
+{
+    string s;
+    cin >> s;
+    int a;
+    cin >> a;
+   
+    Node* root=new Node(s[a]);
+    queue<Node*>q;
+    q.push(root);
+    while(!q.empty()){
+        Node* presentRoot=q.front();
+        q.pop();
+        int x,y;
+        cin >> x >>y;
+        Node* n1 = NULL;
+        Node* n2 = NULL;
+        if(x!=-1){
+            n1=new Node(s[x]);
+        }
+
+        if(y!=-1){
+            n2=new Node(s[y]);
+        }
+
+        presentRoot->left = n1;
+        presentRoot->right = n2;
+ 
+        if(n1!=NULL) q.push(n1);
+        if(n2!=NULL) q.push(n2);
+    } 
+
+    printRootToLeafPaths(root);
+    cout<<c<<endl;
 }
