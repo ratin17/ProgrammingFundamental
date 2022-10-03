@@ -68,7 +68,7 @@ int main(){
     int val;
     while(n--){
         cin>>val;
-        insertAtTail(head,val);
+        insertAtTail(head,val); 
     }
     int k;
     cin>>k;
