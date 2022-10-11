@@ -5,7 +5,7 @@ cleanData=""
 for char in data:
     if char.lower()=='a' or char.lower()=='e' or char.lower()=='i' or char.lower()=='o' or char.lower()=='u':
         if len(cleanData)!=0:
-            cleanData+=f" {char}"
+            cleanData+=f"{char}"
         else:
             cleanData+=char
 
