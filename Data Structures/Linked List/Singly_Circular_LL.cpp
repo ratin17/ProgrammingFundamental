@@ -87,10 +87,7 @@ void insertAtTail(Node* &Head, int val){
     cout<<endl<<">>> inserted "<<val<<" at tail"<<endl;
 }
 
-//just for testing some pointer issues
-void printTest(int* &p){
-    cout<<endl<<"Test :"<<*p<<endl;
-}
+
 
 int listLength(Node* node){
     if(node==NULL)return 0;
