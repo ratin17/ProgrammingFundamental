@@ -19,15 +19,15 @@ int main(){
     }
     st.push(word);
 
-    int i=0;
-    string reversed[100];
+    
+    vector<string> reversed;
     while(!st.empty()){
-        reversed[i]=st.top();
+        reversed.push_back(st.top());
         st.pop();
-        i++;
     }
 
-    for(int i=0;i<reversed->length();i++){
+
+    for(int i=0;i<(reversed.size());i++){
         cout<<reversed[i]<<" ";
     }
 
