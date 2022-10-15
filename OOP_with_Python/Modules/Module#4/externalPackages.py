@@ -6,9 +6,11 @@ import time
 
 time.sleep(5)
 
-
+s=""
 for i in range(20):
-    pyautogui.write('hello')
+    s=""
+    s+="sending "+i
+    pyautogui.write(s)
     pyautogui.press('enter')
 
 
