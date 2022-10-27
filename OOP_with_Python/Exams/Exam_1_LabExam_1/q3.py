@@ -13,7 +13,9 @@ def tell_some_jokes(commands):
         for word in words:
             if word in affirmative:
                 decided=True
+                jokes=list()
                 jokes=pyjokes.get_jokes(language="en",category="all")
+                print(type(jokes))
                 n=random.randint(1,3)
                 print("\nI have",n,"jokes for you !")
                 print("--------------------------")
