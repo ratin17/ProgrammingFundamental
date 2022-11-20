@@ -15,7 +15,6 @@ def tell_some_jokes(commands):
                 decided=True
                 jokes=list()
                 jokes=pyjokes.get_jokes(language="en",category="all")
-                print(type(jokes))
                 n=random.randint(1,3)
                 print("\nI have",n,"jokes for you !")
                 print("--------------------------")
