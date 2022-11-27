@@ -1,3 +1,3 @@
-from args import mul
+from args import mul as gun
 
-print(mul(5,5))
+print(gun(5,5))
