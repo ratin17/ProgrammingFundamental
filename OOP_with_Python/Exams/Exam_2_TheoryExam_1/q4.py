@@ -29,8 +29,10 @@ while(i<len(x)):
         break
 
 
-result="".join(sorted(result.lower()))
+result=sorted(result,key=str.lower)
+
+result="".join(result)
+
+print(result)
 
 
-
-print("Output: ",result)
