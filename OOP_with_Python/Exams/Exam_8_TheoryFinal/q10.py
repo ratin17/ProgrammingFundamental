@@ -18,7 +18,6 @@ class Mother:
 
 
 
-
 class Child(Parent):
 
     def childFunc(self):
