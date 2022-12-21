@@ -1,5 +1,5 @@
 file = open ( 'words.dat' , 'w' ) 
-word = " " 
+word = " "
 while word != "" : 
     word =input ( 'Enter a word (enter only ENTER to quit): ')
     file.write ( word + '\n' ) 

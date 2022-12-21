@@ -1,3 +1,5 @@
-a="""hey gh
- dfh ghhjh
- dhd dd"""
+
+if False:
+    a=10
+
+
