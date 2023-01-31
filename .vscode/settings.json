@@ -1,5 +1,8 @@
 {
     "files.associations": {
         "ostream": "cpp"
-    }
+    },
+    "files.autoSave": "afterDelay",
+    "code-runner.runInTerminal": true,
+    "npm.runInTerminal": true
 }
