@@ -31,15 +31,16 @@ int main(){
     int v[nodes]={};
 
     vector<vector<int>>g{
-        {2,3,4},
-        {2,3},
-        {0,1},
-        {0,1},
-        {0}
+        {2,4,5},
+        {4,5},
+        {0,3,4},
+        {2},
+        {0,1,2,5},
+        {0,1,4}
         
     };
 
-    g[0].insert(g[0].begin(),5);
+    //g[0].insert(g[0].begin(),5);
     //g[5].push_back(0);
 
     for(int i=0;i<g.size();i++){

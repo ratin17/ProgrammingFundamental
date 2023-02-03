@@ -1,13 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void bfs(vector<vector<int>>graph,int src){
+void pBfs(vector<vector<int>>graph,int src1,int src2){
     
     int visited[graph.size()]={};
     queue<int>que;
 
-    que.push(src);
-    visited[src]=1;
+    que.push(src1);
+    visited[src1]=1;
+
+    que.push(src2);
+    visited[src2]=1;
 
     while(!que.empty()){
 
@@ -28,19 +31,15 @@ void bfs(vector<vector<int>>graph,int src){
 
 int main(){
 
-    int nodes=6;
-
     vector<vector<int>>g{
-        {0,3,2,3,4},
-        {2,3},
-        {0,1},
-        {0,1},
-        {0},
-        {}
-        
+        {1,4},
+        {2,0,4},
+        {3,1},
+        {2,4},
+        {0,1,3}
     };
 
-    //g[0].insert(g[0].begin(),5);
+    g[0].insert(g[0].begin(),5);
     //g[5].push_back(0);
 
 
@@ -53,7 +52,7 @@ int main(){
     }
     cout<<endl;
 
-    bfs(g,1);
+    pBfs(g,0,4);
 
     cout<<endl<<endl;
 

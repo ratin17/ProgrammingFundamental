@@ -1,26 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void bfs(vector<vector<int>>graph,int src){
-    
+
+void stackDfs(vector<vector<int>>graph,int src){
     int visited[graph.size()]={};
-    queue<int>que;
+    stack<int>stk;
 
-    que.push(src);
+    stk.push(src);
     visited[src]=1;
+    cout<<src<<" ";
 
-    while(!que.empty()){
-
-        int head=que.front();
-        que.pop();
-        cout<<head<<" ";
-
-        for(int node:graph[head]){
+    while(!stk.empty()){
+        int top=stk.top();
+        
+        bool completed=true;
+        for(int node:graph[top]){
             if(!visited[node]){
-                que.push(node);
                 visited[node]=1;
+                stk.push(node);
+                completed=false;
+                cout<<node<<" ";
+                break;
             }
         }
+        if(completed)stk.pop();
     }
 
 }
@@ -28,22 +31,19 @@ void bfs(vector<vector<int>>graph,int src){
 
 int main(){
 
-    int nodes=6;
-
     vector<vector<int>>g{
-        {0,3,2,3,4},
-        {2,3},
-        {0,1},
-        {0,1},
-        {0},
-        {}
+        {2,4,5},
+        {4,5},
+        {0,3,4},
+        {2},
+        {0,1,2,5},
+        {0,1,4}
         
     };
 
     //g[0].insert(g[0].begin(),5);
     //g[5].push_back(0);
-
-
+    cout<<endl;
     for(int i=0;i<g.size();i++){
         cout<<i<<" => ";
         for(int j=0;j<g[i].size();j++){
@@ -53,7 +53,7 @@ int main(){
     }
     cout<<endl;
 
-    bfs(g,1);
+    stackDfs(g,1);
 
     cout<<endl<<endl;
 
