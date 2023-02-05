@@ -28,7 +28,6 @@ void bfs(vector<vector<int>>graph,int src){
 
 int main(){
 
-    int nodes=6;
 
     vector<vector<int>>g{
         {0,3,2,3,4},
