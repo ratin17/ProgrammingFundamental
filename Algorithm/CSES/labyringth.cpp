@@ -22,8 +22,7 @@ int level[N][N];
 int n,m;
 
 //vector<vector<pair<int,int>>>previ(N);
-vector<vector<pair<int, int>>> previ
-(N, vector<pair<int, int>>(N));
+vector<vector<pair<int, int>>> previ(N, vector<pair<int, int>>(N));
 //pair<int,int> prev[N][N];
 
 int dx[]={1,-1,0,0};
@@ -45,6 +44,12 @@ void path(pair<int,int>s,pair<int,int>d){
     else if(px<dx && py==dy)cout<<"D";
     else if(px>dx && py==dy)cout<<"U";
 
+
+    //cout<<"("<<px<<","<<py<<")";
+
+    
+
+    //cout<<"("<<dx<<","<<dy<<")";
 
 }
 
