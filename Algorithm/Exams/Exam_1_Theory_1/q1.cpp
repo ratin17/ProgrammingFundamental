@@ -2,6 +2,7 @@
 using namespace std;
 
 
+
 bool isBidirectional(vector<vector<int>>graph){
     for(int i=0;i<graph.size();i++){
         for(int j=0;j<graph.size();j++){
@@ -12,7 +13,9 @@ bool isBidirectional(vector<vector<int>>graph){
     }
     return true;
 }
- 
+
+
+
 int main(){
  
     // n = number of nodes

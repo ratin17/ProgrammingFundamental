@@ -6,32 +6,30 @@ using namespace std;
 int const N=1000000;
 int const INF=1e9;
 vector<pair<int,int>>g[N];
-//int previ[N];
-int visited[N]={0};
-int d[N]={0};
 
+ 
 
-void dijkstra(int n,int src){
+int dijkstra(int n,int src,int dest){
+    int visited[n]={0};
+    int d[n];
 
     for(int i=1;i<=n;i++){
         d[i]=INF;
     }
     d[src]=0;
-    //int pr=-1;
+
 
     for(int i=1;i<=n;i++){
 
         int selected=-1;
         for(int j=1;j<=n;j++){
-            if(visited[j])continue;
+            if(visited[j]==1)continue;
             if(selected==-1||d[j]<d[selected]){
                 selected=j;
             }
         }
 
-        //previ[selected]=pr;
-        //pr=selected;
-
+        //cout<<selected<<endl;
         visited[selected]=1;
         for(pair<int,int> node:g[selected]){
             if(d[selected]+node.second<d[node.first]){
@@ -40,9 +38,11 @@ void dijkstra(int n,int src){
         }
     }
 
+
     //printing
-    for(int i=1;i<=n;i++)cout<<d[i]<<" ";
-    cout<<endl;
+    // for(int i=1;i<=n;i++)cout<<d[i]<<" ";
+    // cout<<endl;
+
     //path printing
     // int path=n;
     // while(path!=-1){
@@ -50,37 +50,42 @@ void dijkstra(int n,int src){
     //     path=previ[path];
     // }
     // cout<<endl;
+
+    if(d[dest]==INF)return -1;
+    return d[dest];
 }
 
 int main(){
-    int n,m;
+    int n,m,q;
     //Enter number of nodes and edges
-    cin>>n>>m;
+    cin>>n>>m>>q;
     int a,b,w;
     //Enter Edges: src --> dest
     for(int i=0;i<m;i++){
         cin>>a>>b>>w;
         g[a].push_back({b,w});
         //de-comment if undirected
-        //g[b].push_back({a,w});
+        g[b].push_back({a,w});
     }
-
-    dijkstra(n,1);
+    int s,d;
+    for(int i=1;i<=q;i++){
+        cin>>s>>d;
+        cout<<dijkstra(n,s,d)<<endl;
+    }
 
     return 0;
 }
 
 /*
 
-6 9
-1 2 1
-1 3 5
-2 3 2
-2 4 2
-2 5 1
-3 5 2
-4 5 3
-4 6 1
-5 6 2
+4 3 5
+1 2 5
+1 3 9
+2 3 3
+1 2
+2 1
+1 3
+1 4
+3 2
 
 */
