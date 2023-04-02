@@ -7,23 +7,11 @@ using namespace std;
 int const N=1000000;
 int const INF=1e9;
 vector<pair<int,int>>g[N];
-int previ[N];
 int visited[N]={0};
 int d[N]={0};
+int w[N];
 
-string dijkpath(int start,int node,int count){
-    // cout<<"Inside PrintCyc"<<endl;
-    // cout<<"--"<<node<<" ";
-    // std::chrono::milliseconds sleepDuration(2000);
-    // std::this_thread::sleep_for(sleepDuration);
 
-    if(node==start){
-        cout<<count+1<<endl;
-        return to_string(node);
-    }
-
-    return dijkpath(start,previ[node],count+1)+" "+to_string(node);
-}
 
 
 
@@ -49,38 +37,38 @@ int dijkstra(int n,int src,int dest){
         for(pair<int,int> node:g[selected]){
             if(d[selected]+node.second<d[node.first]){
                 d[node.first]=d[selected]+node.second;
-                previ[node.first]=selected;
                 q.push({d[node.first],node.first});
             }
         }
     }
 
     //printing
-    for(int i=1;i<=n;i++)cout<<d[i]<<" ";
-    cout<<endl;
+    // for(int i=1;i<=n;i++)cout<<d[i]<<" ";
+    // cout<<endl;
     
     if(d[dest]==INF)return -1;
-    else{
-        string p=dijkpath(src,dest,0);
-        cout<<p<<endl;
-        return d[dest];
-    }
+    else return d[dest];
 }
 
 int main(){
     int n,m;
     //Enter number of nodes and edges
-    cin>>n>>m;
-    int a,b,w;
+    cin>>n;
+    for(int i=1;i<=n;i++){
+        cin>>w[i];
+    }
+    int a,b;
+
+    cin>>m;
     //Enter Edges: src --> dest
     for(int i=0;i<m;i++){
-        cin>>a>>b>>w;
-        g[a].push_back({b,w});
+        cin>>a>>b;
+        g[a].push_back({b,w[a]});
         //de-comment if undirected
-        //g[b].push_back({a,w});
+        g[b].push_back({a,w[b]});
     }
 
-    dijkstra(n,1,6);
+    cout<<dijkstra(n,1,n)<<endl;
 
     return 0;
 }
