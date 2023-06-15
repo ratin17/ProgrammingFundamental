@@ -1,0 +1,17 @@
+Total Bank Balance: 2000
+Ikhtiar Transaction History:
+Deposited: 500
+Withdrawn: 140
+After deposit and withdraw balance : 1360
+Kutub Transaction History:
+Deposited: 400
+Withdrawn: 700
+Received: 10 from Ikhtiar Uddin
+Transferred: 50 to Ikhtiar Uddin
+After deposit and withdraw balance : 660 
+Now Exactly Amount of Ikhtiars:  1400    
+Now Exactly Amount of Kutubs:  660       
+Loan Granted for Ikhtiar: 2800
+Loan Granted for Kutub: 1320
+Loan Feature Status: True
+Total Loan Amount: 4120
