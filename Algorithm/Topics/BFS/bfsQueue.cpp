@@ -21,7 +21,7 @@ void bfs(int src){
     q.pop();
 
     cout<<top<<" ";
-    for(auto node:g[top]){
+    for(int node:g[top]){
         if(!visited[node]){
             visited[node]=1;
             q.push(node);
